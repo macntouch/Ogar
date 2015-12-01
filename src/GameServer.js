@@ -15,7 +15,7 @@ var Logger = require('./modules/log');
 
 // GameServer implementation
 function GameServer() {
-    // Startup 
+    // Startup
     this.run = true;
     this.lastNodeId = 1;
     this.lastPlayerId = 1;
@@ -53,9 +53,9 @@ function GameServer() {
         serverStatsUpdate: 60, // Amount of seconds per update for the server stats
         serverLogLevel: 1, // Logging level of the server. 0 = No logs, 1 = Logs the console, 2 = Logs console and ip connections
         borderLeft: 0, // Left border of map (Vanilla value: 0)
-        borderRight: 6000, // Right border of map (Vanilla value: 11180.3398875)
+        borderRight: 60, // Right border of map (Vanilla value: 11180.3398875)
         borderTop: 0, // Top border of map (Vanilla value: 0)
-        borderBottom: 6000, // Bottom border of map (Vanilla value: 11180.3398875)
+        borderBottom: 60, // Bottom border of map (Vanilla value: 11180.3398875)
         spawnInterval: 20, // The interval between each food cell spawn in ticks (1 tick = 50 ms)
         foodSpawnAmount: 10, // The amount of food to spawn per interval
         foodStartAmount: 100, // The starting amount of food in the map
@@ -146,10 +146,10 @@ GameServer.prototype.start = function() {
     // Properly handle errors because some people are too lazy to read the readme
     this.socketServer.on('error', function err(e) {
         switch (e.code) {
-            case "EADDRINUSE": 
+            case "EADDRINUSE":
                 console.log("[Error] Server could not bind to port! Please close out of Skype or change 'serverPort' in gameserver.ini to a different number.");
                 break;
-            case "EACCES": 
+            case "EACCES":
                 console.log("[Error] Please make sure you are running Ogar with root privileges.");
                 break;
             default:
@@ -450,7 +450,7 @@ GameServer.prototype.spawnPlayer = function(player,pos,mass) {
     if (mass == null) { // Get starting mass
         mass = this.config.playerStartMass;
     }
-    
+
     // Spawn player and add to world
     var cell = new Entity.PlayerCell(this.getNextNodeId(), player, pos, mass);
     this.addNode(cell);
@@ -475,10 +475,10 @@ GameServer.prototype.virusCheck = function() {
             }
 
             var squareR = check.getSquareSize(); // squared Radius of checking player cell
-            
+
             var dx = check.position.x - pos.x;
             var dy = check.position.y - pos.y;
-            
+
             if (dx * dx + dy * dy + virusSquareSize <= squareR)
                 return; // Collided
         }
@@ -578,7 +578,7 @@ GameServer.prototype.splitCells = function(client) {
         if (cell.mass < this.config.playerMinMassSplit) {
             continue;
         }
-        
+
         // Get angle
         var deltaY = client.mouse.y - cell.position.y;
         var deltaX = client.mouse.x - cell.position.x;
@@ -597,7 +597,7 @@ GameServer.prototype.splitCells = function(client) {
         // Create cell
         var split = new Entity.PlayerCell(this.getNextNodeId(), client, startPos, newMass);
         split.setAngle(angle);
-        split.setMoveEngineData(splitSpeed, 32, 0.85); 
+        split.setMoveEngineData(splitSpeed, 32, 0.85);
         split.calcMergeTime(this.config.playerRecombineTime);
 
         // Add to moving cells list
@@ -818,7 +818,7 @@ GameServer.prototype.updateCells = function() {
         if (!cell) {
             continue;
         }
-        
+
         if (cell.recombineTicks > 0) {
             // Recombining
             cell.recombineTicks--;
@@ -864,17 +864,17 @@ GameServer.prototype.switchSpectator = function(player) {
                 oldPlayer = 0;
                 continue;
             }
-            
+
             if (!this.clients[oldPlayer]) {
                 // Break out of loop in case client tries to spectate an undefined player
                 player.spectatedPlayer = -1;
                 break;
             }
-            
+
             if (this.clients[oldPlayer].playerTracker.cells.length > 0) {
                 break;
             }
-            
+
             oldPlayer++;
             count++;
         }
@@ -943,7 +943,7 @@ WebSocket.prototype.sendPacket = function(packet) {
 
         return buffer;
     }
-    
+
     //if (this.readyState == WebSocket.OPEN && (this._socket.bufferSize == 0) && packet.build) {
     if (this.readyState == WebSocket.OPEN && packet.build) {
         var buf = packet.build();

@@ -1,4 +1,5 @@
 module.exports = {
+    Flag: require('./Flag'),
     Mode: require('./Mode'),
     FFA: require('./FFA'),
     Teams: require('./Teams'),
@@ -15,6 +16,9 @@ module.exports = {
 var get = function(id) {
     var mode;
     switch (id) {
+        case 69: // Flag
+            mode = new module.exports.Flag();
+            break;
         case 1: // Teams
             mode = new module.exports.Teams();
             break;
