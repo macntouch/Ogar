@@ -1,8 +1,6 @@
 var Teams = require('./Teams');
-var FlagBot = require('../ai/FlagBot');
 var FakeSocket = require('../ai/FakeSocket');
 var PacketHandler = require('../PacketHandler');
-//var FlagLoader = require('../ai/FlagLoader');
 
 
 function Flag() {
@@ -34,10 +32,14 @@ function addFlag(gameServer){
   var name = "Flag !";
   s.packetHandler.setNickname(name);
   s.playerTracker.setName(name);
-  s.playerTracker.cells[0].addMass(20);
-  s.playerTracker.team = idxTeam++;
+  s.playerTracker.cells[0].addMass(1);
+  s.playerTracker.team = idxTeam++ % 3;
   s.playerTracker.decide = function () {};
-  s.playerTracker.cells[0].onConsume = onConsume;
+  var originalConsume = s.playerTracker.cells[0].onConsume;
+  s.playerTracker.cells[0].onConsume = function(consumer,gameServer){
+    onConsume(consumer,gameServer);
+    originalConsume(consumer,gameServer);
+  }
 
 }
 
