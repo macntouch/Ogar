@@ -43,9 +43,19 @@ Flag.prototype.addFlag = function (gameServer){
   s.playerTracker.decide = function () {};
 
   var originalConsume = firstCell.onConsume;
+  var pos = 0;
+  firstCell.calcMove = function (x, y, gameServer) {
+    if (this.owner != s.playerTracker){
+      pos += .1;
+      gameServer.gameMode.onCellMove(
+        firstCell.position.x = this.owner.cells[0].position.x + 100 * Math.cos(pos),
+        firstCell.position.y = this.owner.cells[0].position.y + 100 * Math.sin(pos),
+        this
+      );
+    }
+  }
   firstCell.onConsume = function(consumer,gameServer){
     onConsume(consumer,gameServer);
-    // originalConsume(consumer,gameServer);
   }
 
 
