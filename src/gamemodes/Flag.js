@@ -35,6 +35,7 @@ Flag.prototype.addFlag = function (gameServer){
   s.packetHandler.setNickname(name);
   s.playerTracker.setName(name);
   s.playerTracker.cells[0].addMass(1);
+  s.playerTracker.cells[0].cellType = 4;
   s.playerTracker.cells[0].setColor(this.getTeamColor(teamId));
   s.playerTracker.team = teamId;
   s.playerTracker.decide = function () {};
@@ -47,7 +48,7 @@ Flag.prototype.addFlag = function (gameServer){
 }
 
 function onConsume(consumer,gameServer){
-	console.log("Consumed :(");
+	console.log(consumer);
 
 }
 

@@ -723,6 +723,9 @@ GameServer.prototype.getCellsInRange = function(cell) {
             case 2: // Virus
                 multiplier = 1.33;
                 break;
+            case 4: // Flag
+                check.owner = cell.owner;
+                continue;
             case 0: // Players
                 // Can't eat self if it's not time to recombine yet
                 if (check.owner == cell.owner) {
