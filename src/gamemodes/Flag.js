@@ -18,22 +18,25 @@ Flag.prototype.onServerInit = function(gameServer) {
 	console.log("xxxxx");
   Teams.prototype.onServerInit.apply(this, Array.prototype.slice.call(arguments));
   for (var i = 0; i < 20; i++) {
-   	addFlag(gameServer);
+   	this.addFlag(gameServer);
   };
 }
 
 var idxTeam = 0;
 
-function addFlag(gameServer){
+Flag.prototype.addFlag = function (gameServer){
 
 	gameServer.bots.addBot();
 
   var s = gameServer.clients[gameServer.clients.length - 1];
-  var name = "Flag !";
+  var name = "Flag "+idxTeam;
+  var teamId = idxTeam++ % 3;
+
   s.packetHandler.setNickname(name);
   s.playerTracker.setName(name);
   s.playerTracker.cells[0].addMass(1);
-  s.playerTracker.team = idxTeam++ % 3;
+  s.playerTracker.cells[0].setColor(this.getTeamColor(teamId));
+  s.playerTracker.team = teamId;
   s.playerTracker.decide = function () {};
   var originalConsume = s.playerTracker.cells[0].onConsume;
   s.playerTracker.cells[0].onConsume = function(consumer,gameServer){
