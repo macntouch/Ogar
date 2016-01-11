@@ -78,6 +78,8 @@ Teams.prototype.onCellAdd = function(cell) {
 };
 
 Teams.prototype.onCellRemove = function(cell) {
+    console.log("cell removed:", cell);
+    console.log("onCellRemove", cell.owner, this.nodes.length);
     // Remove from team list
     var index = this.nodes[cell.owner.getTeam()].indexOf(cell);
     if (index != -1) {

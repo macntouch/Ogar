@@ -38,7 +38,7 @@ function addFlag(gameServer){
   var originalConsume = s.playerTracker.cells[0].onConsume;
   s.playerTracker.cells[0].onConsume = function(consumer,gameServer){
     onConsume(consumer,gameServer);
-    originalConsume(consumer,gameServer);
+    // originalConsume(consumer,gameServer);
   }
 
 }
