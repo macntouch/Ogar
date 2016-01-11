@@ -34,16 +34,20 @@ Flag.prototype.addFlag = function (gameServer){
 
   s.packetHandler.setNickname(name);
   s.playerTracker.setName(name);
-  s.playerTracker.cells[0].addMass(1);
-  s.playerTracker.cells[0].cellType = 4;
-  s.playerTracker.cells[0].setColor(this.getTeamColor(teamId));
+
+  var firstCell = s.playerTracker.cells[0];
+  firstCell.addMass(1);
+  firstCell.cellType = 4;
+  firstCell.setColor(this.getTeamColor(teamId));
   s.playerTracker.team = teamId;
   s.playerTracker.decide = function () {};
-  var originalConsume = s.playerTracker.cells[0].onConsume;
-  s.playerTracker.cells[0].onConsume = function(consumer,gameServer){
+
+  var originalConsume = firstCell.onConsume;
+  firstCell.onConsume = function(consumer,gameServer){
     onConsume(consumer,gameServer);
     // originalConsume(consumer,gameServer);
   }
+
 
 }
 

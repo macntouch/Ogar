@@ -724,7 +724,8 @@ GameServer.prototype.getCellsInRange = function(cell) {
                 multiplier = 1.33;
                 break;
             case 4: // Flag
-                check.owner = cell.owner;
+                //check.owner = cell.owner;
+                //check.ignoreCollision = true;
                 continue;
             case 0: // Players
                 // Can't eat self if it's not time to recombine yet
